@@ -49,10 +49,10 @@ const AgeGate = () => {
               initial={{ opacity: 0, y: -16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="h-10 xs:h-12"
+              className="h-14 xs:h-16 md:h-20"
               style={{
                 filter:
-                  "brightness(0) invert(1) drop-shadow(0 0 8px rgba(190,150,50,0.5))",
+                  "brightness(0) invert(1) drop-shadow(0 0 14px rgba(190,150,50,0.7))",
               }}
             />
 
@@ -84,10 +84,10 @@ const AgeGate = () => {
                   </h1>
 
                   {/* Copia */}
-                  <p className="font-body text-sm text-white/55 leading-relaxed max-w-[30ch]">
+                  <p className="font-body text-base xs:text-lg text-white/90 leading-relaxed max-w-[28ch] font-medium">
                     No es alcohol. Es agua andina en lata.
                     <br />
-                    Pero nos gusta el drama.
+                    <span className="text-primary">Pero nos gusta el drama.</span>
                   </p>
 
                   {/* Botones */}
