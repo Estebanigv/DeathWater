@@ -31,15 +31,12 @@ const AgeGate = () => {
           exit={{ opacity: 0, transition: { duration: 0.6 } }}
           className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center px-6 text-center"
         >
-          {/* Banner de fondo muy sutil */}
-          <img
-            src="/Image/Banner home/DWbannerHome3.webp"
-            alt=""
+          {/* Glow dorado sutil */}
+          <div
+            className="absolute inset-0 opacity-[0.07]"
+            style={{ backgroundImage: "radial-gradient(ellipse at 50% 40%, hsl(43 72% 50%) 0%, transparent 65%)" }}
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-25"
           />
-          {/* Overlay negro para que el contenido sea legible */}
-          <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
 
           <div className="relative z-10 flex flex-col items-center gap-6 max-w-sm w-full">
             {/* Logo */}
