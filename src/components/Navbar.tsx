@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Menu, X, User } from "lucide-react";
 import logoHorizontal from "@/assets/logo-horizontal.png";
+import { useCart } from "@/context/CartContext";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled]     = useState(false);
+  const { totalItems, setCartOpen } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -105,16 +107,25 @@ const Navbar = () => {
           </button>
 
           <button
-            aria-label="Carrito de compras, 0 artículos"
+            aria-label={`Carrito de compras, ${totalItems} artículos`}
+            onClick={() => setCartOpen(true)}
             className="relative touch-target text-white hover:text-primary transition-colors duration-200 drop-shadow-md"
           >
             <ShoppingCart className="h-5 w-5" aria-hidden="true" />
-            <span
-              aria-hidden="true"
-              className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold leading-none text-primary-foreground"
-            >
-              0
-            </span>
+            <AnimatePresence>
+              {totalItems > 0 && (
+                <motion.span
+                  key="badge"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  aria-hidden="true"
+                  className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold leading-none text-primary-foreground"
+                >
+                  {totalItems > 9 ? "9+" : totalItems}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
 
           <button

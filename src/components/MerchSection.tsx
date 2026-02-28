@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { useCart, parseCLP } from "@/context/CartContext";
 
 type Variation = {
   label: string;
@@ -150,6 +151,17 @@ const merch: MerchItem[] = [
 const MerchSection = () => {
   const [selected, setSelected] = useState<MerchItem | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<string>("");
+  const { addItem } = useCart();
+
+  const handleAddToCart = (m: MerchItem, variant: string) => {
+    addItem({
+      name: m.name,
+      priceStr: m.price,
+      price: parseCLP(m.price),
+      img: m.img,
+      variant,
+    });
+  };
 
   const handleOpen = (item: MerchItem) => {
     setSelected(item);
@@ -240,7 +252,7 @@ const MerchSection = () => {
                 {/* Touch-target wrapper ensures 44px tap area even if button looks small */}
                 <button
                   aria-label={`Añadir ${m.name} al carrito`}
-                  onClick={(e) => { e.stopPropagation(); }}
+                  onClick={(e) => { e.stopPropagation(); handleAddToCart(m, m.variation?.options[0] ?? ""); }}
                   className="touch-target bg-primary hover:opacity-90 active:scale-95 transition-all text-primary-foreground font-heading text-[9px] xs:text-[10px] uppercase tracking-wider px-2 xs:px-2.5"
                 >
                   <ShoppingCart className="h-3 w-3 xs:h-3.5 xs:w-3.5 shrink-0" aria-hidden="true" />
@@ -256,7 +268,7 @@ const MerchSection = () => {
       <Sheet open={!!selected} onOpenChange={(open) => !open && handleClose()}>
         <SheetContent
           side="right"
-          className="w-full sm:max-w-lg p-0 flex flex-col gap-0 overflow-hidden bg-card border-l border-border"
+          className="w-full sm:max-w-xl md:max-w-3xl p-0 flex flex-col gap-0 overflow-hidden bg-card border-l border-border"
           aria-label={selected ? `Detalle de ${selected.name}` : "Detalle de producto"}
         >
           <AnimatePresence mode="wait">
@@ -269,8 +281,8 @@ const MerchSection = () => {
                 transition={{ duration: 0.15 }}
                 className="flex flex-col h-full overflow-hidden"
               >
-                {/* Product image — 16/9 on small mobile, square on xs+, squarish on sm */}
-                <div className="relative w-full aspect-video xs:aspect-square sm:aspect-[4/3] overflow-hidden shrink-0">
+                {/* Imagen — siempre arriba */}
+                <div className="relative w-full aspect-[4/3] overflow-hidden shrink-0">
                   {selected.img ? (
                     <img
                       src={selected.img}
@@ -289,14 +301,13 @@ const MerchSection = () => {
                   )}
 
                   {/* Type badge */}
-                  <span className="absolute bottom-3 left-3 xs:bottom-4 xs:left-4 font-heading text-[9px] uppercase tracking-[0.35em] bg-primary text-primary-foreground px-3 py-1.5">
+                  <span className="absolute bottom-3 left-3 font-heading text-[9px] uppercase tracking-[0.35em] bg-primary text-primary-foreground px-3 py-1.5">
                     {selected.type}
                   </span>
-
                 </div>
 
-                {/* Scrollable info */}
-                <div className="flex flex-col gap-4 xs:gap-5 p-4 xs:p-5 md:p-6 overflow-y-auto flex-1">
+                {/* Scrollable info — columna derecha en desktop */}
+                <div className="flex flex-col gap-4 xs:gap-5 p-5 md:p-7 overflow-y-auto flex-1">
 
                   {/* Name + price */}
                   <div className="flex items-start justify-between gap-3 xs:gap-4">
@@ -363,7 +374,10 @@ const MerchSection = () => {
 
                   {/* CTA — sticky at bottom */}
                   <div className="mt-auto pt-4 border-t border-border">
-                    <button className="btn-primary w-full !py-4 !text-sm">
+                    <button
+                      onClick={() => { handleAddToCart(selected, selectedVariant); handleClose(); }}
+                      className="btn-primary w-full !py-4 !text-sm"
+                    >
                       <ShoppingCart className="h-4 w-4" aria-hidden="true" />
                       Añadir al Carrito
                     </button>

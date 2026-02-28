@@ -1,4 +1,18 @@
+import { Instagram, Facebook, Youtube } from "lucide-react";
 import logoHorizontal from "@/assets/logo-horizontal.png";
+
+const TikTokIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.88-2.88 2.89 2.89 0 0 1 2.88-2.88c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.56a8.16 8.16 0 0 0 4.77 1.52v-3.4s-1.01.01-1.01.01Z" />
+  </svg>
+);
+
+const socialLinks = [
+  { href: "https://www.instagram.com/deathwatercl", Icon: Instagram, label: "Instagram" },
+  { href: "https://www.facebook.com/deathwatercl", Icon: Facebook, label: "Facebook" },
+  { href: "https://www.youtube.com/@deathwatercl", Icon: Youtube, label: "YouTube" },
+  { href: "https://www.tiktok.com/@deathwatercl", Icon: TikTokIcon, label: "TikTok" },
+];
 
 const navColumns = [
   {
@@ -85,6 +99,22 @@ const Footer = () => (
             className="h-8 xs:h-9 md:h-10 brightness-0 invert opacity-70 hover:opacity-90 transition-opacity duration-200"
           />
         </a>
+
+        {/* Social icons */}
+        <div className="flex items-center gap-1">
+          {socialLinks.map(({ href, Icon, label }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="w-9 h-9 flex items-center justify-center text-muted-foreground hover:text-primary transition-colors duration-200"
+            >
+              <Icon className="h-5 w-5" />
+            </a>
+          ))}
+        </div>
 
         {/* Legal links */}
         <nav aria-label="Legal" className="flex flex-wrap justify-center gap-x-4 xs:gap-x-5 gap-y-2">

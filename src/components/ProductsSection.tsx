@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Droplets, Zap, Leaf, Award } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { useCart, parseCLP } from "@/context/CartContext";
 
 type Product = {
   name: string;
@@ -71,9 +72,32 @@ const products: Product[] = [
   },
 ];
 
+const getMultiplier = (qty: string) => {
+  const match = qty.match(/^(\d+)/);
+  return match ? parseInt(match[1], 10) : 1;
+};
+
 const ProductsSection = () => {
   const [selected, setSelected] = useState<Product | null>(null);
   const [selectedQty, setSelectedQty] = useState<string>("");
+  const { addItem } = useCart();
+
+  const computedPrice = selected
+    ? parseCLP(selected.price) * getMultiplier(selectedQty)
+    : 0;
+
+  const formatCLP = (n: number) => "$" + n.toLocaleString("es-CL");
+
+  const handleAddToCart = (p: Product, qty: string) => {
+    const total = parseCLP(p.price) * getMultiplier(qty);
+    addItem({
+      name: p.name,
+      priceStr: formatCLP(total),
+      price: total,
+      img: p.img,
+      variant: qty,
+    });
+  };
 
   const handleOpen = (p: Product) => {
     setSelected(p);
@@ -167,7 +191,7 @@ const ProductsSection = () => {
                   </div>
                   <button
                     aria-label={`Añadir ${p.name} al carrito`}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => { e.stopPropagation(); handleAddToCart(p, "1 lata"); }}
                     className="btn-primary !py-2.5 !px-4 xs:!px-5 !text-[10px] shrink-0"
                   >
                     <ShoppingCart className="h-3.5 w-3.5" aria-hidden="true" />
@@ -184,7 +208,7 @@ const ProductsSection = () => {
       <Sheet open={!!selected} onOpenChange={(open) => !open && handleClose()}>
         <SheetContent
           side="right"
-          className="w-full sm:max-w-lg p-0 flex flex-col gap-0 overflow-hidden bg-card border-l border-border"
+          className="w-full sm:max-w-xl md:max-w-3xl p-0 flex flex-col gap-0 overflow-hidden bg-card border-l border-border"
           aria-label={selected ? `Detalle de ${selected.name}` : "Detalle de producto"}
         >
           <AnimatePresence mode="wait">
@@ -197,20 +221,20 @@ const ProductsSection = () => {
                 transition={{ duration: 0.15 }}
                 className="flex flex-col h-full overflow-hidden"
               >
-                {/* Imagen — 16/9 on mobile so content below is reachable */}
-                <div className="relative w-full aspect-video xs:aspect-[4/3] sm:aspect-[3/4] overflow-hidden shrink-0">
+                {/* Imagen — siempre arriba */}
+                <div className="relative w-full aspect-[4/3] overflow-hidden shrink-0">
                   <img
                     src={selected.img}
                     alt={selected.name}
                     className={`w-full h-full object-cover ${selected.pos}`}
                   />
-                  <span className="absolute bottom-3 left-3 xs:bottom-4 xs:left-4 font-heading text-[9px] uppercase tracking-[0.35em] bg-primary text-primary-foreground px-3 py-1.5">
+                  <span className="absolute bottom-3 left-3 font-heading text-[9px] uppercase tracking-[0.35em] bg-primary text-primary-foreground px-3 py-1.5">
                     {selected.category}
                   </span>
                 </div>
 
-                {/* Info scrollable */}
-                <div className="flex flex-col gap-4 xs:gap-5 p-4 xs:p-5 md:p-6 overflow-y-auto flex-1">
+                {/* Info scrollable — debajo */}
+                <div className="flex flex-col gap-4 xs:gap-5 p-5 md:p-7 overflow-y-auto flex-1">
 
                   {/* Nombre + precio */}
                   <div className="flex items-start justify-between gap-4">
@@ -226,7 +250,9 @@ const ProductsSection = () => {
                       </h2>
                     </div>
                     <div className="text-right shrink-0">
-                      <span className="font-heading text-xl xs:text-2xl font-bold text-foreground">{selected.price}</span>
+                      <span className="font-heading text-xl xs:text-2xl font-bold text-foreground">
+                        {formatCLP(computedPrice)}
+                      </span>
                       <p className="font-body text-[10px] text-muted-foreground">{selected.cal}</p>
                     </div>
                   </div>
@@ -288,9 +314,12 @@ const ProductsSection = () => {
 
                   {/* CTA */}
                   <div className="mt-auto pt-4 border-t border-border">
-                    <button className="btn-primary w-full !py-4 !text-sm">
+                    <button
+                      onClick={() => { handleAddToCart(selected, selectedQty); handleClose(); }}
+                      className="btn-primary w-full !py-4 !text-sm"
+                    >
                       <ShoppingCart className="h-4 w-4" aria-hidden="true" />
-                      Añadir al Carrito
+                      Añadir — {formatCLP(computedPrice)}
                     </button>
                   </div>
                 </div>

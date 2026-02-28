@@ -6,22 +6,32 @@ const HeroSection = () => (
     className="relative flex items-end overflow-hidden bg-black"
     style={{ minHeight: "100svh" }}
   >
-    {/* Background image */}
+    {/* Background — imagen en mobile, video en desktop */}
     <img
       src="/Image/Banner%20home/DWbannerHome3.webp"
       alt=""
       aria-hidden="true"
-      className="absolute inset-0 w-full h-full object-cover object-center"
+      className="md:hidden absolute inset-0 w-full h-full object-cover object-center"
       fetchPriority="high"
     />
+    <video
+      aria-hidden="true"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      className="hidden md:block absolute inset-0 w-full h-full object-cover object-center"
+    >
+      <source src="/Image/Banner%20home/DWBannerV2.webm" type="video/webm" />
+    </video>
 
     {/* Gradient overlays */}
-    <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent z-[3]" />
-    <div className="absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-black via-black/80 to-transparent z-[3]" />
-    <div className="absolute inset-y-0 left-0 w-[60%] xs:w-[50%] bg-gradient-to-r from-black/65 to-transparent z-[3]" />
+    <div className="absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-black/90 via-black/40 to-transparent z-[3]" />
+    <div className="absolute inset-y-0 left-0 w-[50%] xs:w-[40%] bg-gradient-to-r from-black/25 to-transparent z-[3]" />
 
     {/* Content — pb must clear the scroll indicator; pt is handled by absolute positioning at bottom */}
-    <div className="relative z-10 w-full mx-auto max-w-7xl px-4 xs:px-5 md:px-12 pb-16 md:pb-20">
+    <div className="relative z-10 w-full mx-auto max-w-7xl px-4 xs:px-5 md:px-12 pb-20 md:pb-28">
       {/*
         Layout: on mobile everything stacks vertically.
         On sm+ the headline sits left and CTAs sit right on the same baseline row.

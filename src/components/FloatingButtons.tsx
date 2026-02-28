@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 
-const WA_NUMBER = "56912345678"; // ← reemplaza con el número real
+const WA_NUMBER = "56928649365";
 const WA_MESSAGE = encodeURIComponent("Hola, quiero saber más sobre Death Water 💀");
 
 const FloatingButtons = () => {

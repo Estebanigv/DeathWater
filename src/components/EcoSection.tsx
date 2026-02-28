@@ -105,27 +105,28 @@ const EcoSection = () => (
 
     <div className="relative z-10 mx-auto max-w-5xl px-4 md:px-6 text-center">
 
-      <motion.p
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="font-heading text-[10px] uppercase tracking-[0.5em] text-primary mb-4"
-      >
-        Muerte al Plástico
-      </motion.p>
-
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
+        className="font-display font-bold mb-3 xs:mb-4 leading-tight"
+        style={{ fontSize: "clamp(2rem, 8vw, 4.5rem)" }}
+      >
+        <span className="text-gold-gradient">MUERTE AL PLÁSTICO</span>
+      </motion.h2>
+
+      <motion.h3
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
         transition={{ delay: 0.1 }}
         className="font-display font-bold mb-5 xs:mb-6 leading-tight"
-        style={{ fontSize: "clamp(1.5rem, 6vw, 3.75rem)" }}
+        style={{ fontSize: "clamp(1.2rem, 4vw, 2.25rem)" }}
       >
-        <span className="text-foreground">EL RECICLAJE DE PLÁSTICO</span>
-        <br />
-        <span className="text-gold-gradient">ES UN MITO</span>
-      </motion.h2>
+        <span className="text-foreground">El reciclaje de plástico</span>
+        {" "}
+        <span className="text-muted-foreground">es un mito</span>
+      </motion.h3>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
@@ -153,7 +154,7 @@ const EcoSection = () => (
         viewport={{ once: true }}
         transition={{ delay: 0.4 }}
       >
-        <a href="#" className="btn-secondary">
+        <a href="/conoce-mas" className="btn-secondary">
           Conoce Más
         </a>
       </motion.div>

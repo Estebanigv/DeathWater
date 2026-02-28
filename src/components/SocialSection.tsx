@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Instagram } from "lucide-react";
+import { Instagram, Facebook, Youtube } from "lucide-react";
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg
@@ -14,14 +14,28 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 
 const socials = [
   {
-    href: "#",
+    href: "https://www.instagram.com/deathwatercl",
     icon: Instagram,
     handle: "@deathwatercl",
     platform: "Instagram",
     ariaLabel: "Seguirnos en Instagram — @deathwatercl",
   },
   {
-    href: "#",
+    href: "https://www.facebook.com/deathwatercl",
+    icon: Facebook,
+    handle: "Death Water Chile",
+    platform: "Facebook",
+    ariaLabel: "Seguirnos en Facebook — Death Water Chile",
+  },
+  {
+    href: "https://www.youtube.com/@deathwatercl",
+    icon: Youtube,
+    handle: "@deathwatercl",
+    platform: "YouTube",
+    ariaLabel: "Suscribirse en YouTube — @deathwatercl",
+  },
+  {
+    href: "https://www.tiktok.com/@deathwatercl",
     icon: TikTokIcon,
     handle: "@deathwatercl",
     platform: "TikTok",
@@ -67,7 +81,7 @@ const SocialSection = () => (
       </motion.p>
 
       {/* Social cards — stacked full-width on mobile, inline on sm+ */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 xs:gap-4">
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4">
         {socials.map(({ href, icon: Icon, handle, platform, ariaLabel }, i) => (
           <motion.a
             key={platform}

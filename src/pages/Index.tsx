@@ -6,6 +6,7 @@ import EcoSection from "@/components/EcoSection";
 import MerchSection from "@/components/MerchSection";
 import CommunitySection from "@/components/CommunitySection";
 import SocialSection from "@/components/SocialSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
@@ -23,6 +24,7 @@ const Index = () => (
     <EcoSection />
     <MerchSection />
     <CommunitySection />
+    <TestimonialsSection />
     <SocialSection />
     <NewsletterSection />
     <Footer />
