@@ -65,11 +65,9 @@ const HeroSection = () => (
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="font-body text-xs xs:text-sm text-white/65 leading-relaxed max-w-[26ch]"
+            className="font-body text-xs xs:text-sm text-white/65 leading-relaxed max-w-[28ch]"
           >
-            Agua pura de los Andes en lata de aluminio.
-            <br />
-            Porque el plástico ya mató suficiente.
+            Agua pura de los Andes en lata de aluminio. Porque el plástico ya mató suficiente.
           </motion.p>
         </div>
 
