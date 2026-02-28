@@ -36,10 +36,10 @@ const AgeGate = () => {
             src="/Image/Banner home/DWbannerHome3.webp"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-[0.08]"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-25"
           />
           {/* Overlay negro para que el contenido sea legible */}
-          <div className="absolute inset-0 bg-black/70" aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
 
           <div className="relative z-10 flex flex-col items-center gap-6 max-w-sm w-full">
             {/* Logo */}
