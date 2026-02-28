@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 5%;
+    --foreground: 45 10% 90%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 45 10% 90%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 45 10% 90%;
+
+    --primary: 43 72% 50%;
+    --primary-foreground: 0 0% 5%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 45 10% 90%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 55%;
+
+    --accent: 43 72% 50%;
+    --accent-foreground: 0 0% 5%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 43 72% 50%;
+
+    --radius: 0rem;
+
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 45 10% 90%;
+    --sidebar-primary: 43 72% 50%;
+    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 45 10% 90%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 43 72% 50%;
+
+    --gold: 43 72% 50%;
+    --gold-light: 43 72% 65%;
+    --gold-dark: 43 72% 35%;
+
+    /* Spacing scale used consistently across sections */
+    --section-py: 5rem;          /* py-20 equivalent */
+    --section-py-lg: 6rem;       /* py-24 equivalent */
+
+    /* Fixed header height — updated by JS or kept in sync manually */
+    --header-h: 88px; /* shipping bar ~36px + navbar ~52px */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Dynamic scroll-padding: shipping bar (~36px) + navbar (~52px) = ~88px.
+       On xs screens the shipping bar may wrap to 2 lines — add extra clearance. */
+    scroll-padding-top: 88px;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Oswald', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent any child from creating horizontal scroll */
+    overflow-x: hidden;
+  }
+
+  /* Lock scroll when mobile menu is open */
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Cinzel Decorative', cursive;
+    /* Prevent very long words from blowing out layouts on narrow screens */
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* ── Accessible focus ring — visible on keyboard, invisible on click ── */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Remove default focus for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* ── Custom scrollbar — dark theme ── */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.6);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Cinzel Decorative', cursive;
+  }
+  .font-heading {
+    font-family: 'Oswald', sans-serif;
+  }
+  .font-body {
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── Gradient text ── */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, hsl(43 72% 65%), hsl(43 72% 50%), hsl(43 72% 35%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Gradient backgrounds ── */
+  .bg-gold-gradient {
+    background: linear-gradient(135deg, hsl(43 72% 55%), hsl(43 72% 38%));
+  }
+
+  .border-gold {
+    border-color: hsl(43 72% 50%);
+  }
+
+  /* ── Glow effects ── */
+  .glow-gold {
+    box-shadow: 0 0 30px hsl(43 72% 50% / 0.3);
+  }
+  .glow-gold-sm {
+    box-shadow: 0 0 12px hsl(43 72% 50% / 0.2);
+  }
+
+  /* ── Section top separator — thin gold rule ── */
+  .section-divider {
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  /* ── Reusable button base styles ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-gold-gradient px-6 py-3 font-heading text-xs font-bold uppercase tracking-[0.18em] text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-[0.97] min-h-[44px];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 border border-primary px-6 py-3 font-heading text-xs font-bold uppercase tracking-[0.18em] text-primary transition-all duration-200 hover:bg-primary hover:text-primary-foreground active:scale-[0.97] min-h-[44px];
+  }
+
+  /* ── Shimmer animation for shipping bar ── */
+  @keyframes shimmer-slide {
+    from { background-position: -200% center; }
+    to   { background-position:  200% center; }
+  }
+
+  .shimmer-text {
+    background: linear-gradient(
+      90deg,
+      hsl(43 72% 38%) 20%,
+      hsl(43 72% 70%) 40%,
+      hsl(43 72% 55%) 60%,
+      hsl(43 72% 38%) 80%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer-slide 4s linear infinite;
+  }
+
+  /* ── Touch-target helper ── */
+  .touch-target {
+    @apply min-w-[44px] min-h-[44px] flex items-center justify-center;
+  }
+}
