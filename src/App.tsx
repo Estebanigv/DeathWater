@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import ReservaDrawer from "@/components/ReservaDrawer";
+import AgeGate from "@/components/AgeGate";
 import Index from "./pages/Index";
 import ConoceMas from "./pages/ConoceMas";
 import NotFound from "./pages/NotFound";
@@ -18,6 +19,7 @@ const App = () => (
       <CartProvider>
         <Toaster />
         <Sonner />
+        <AgeGate />
         <CartDrawer />
         <ReservaDrawer />
         <BrowserRouter>
