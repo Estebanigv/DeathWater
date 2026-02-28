@@ -14,6 +14,8 @@ type CartContextType = {
   items: CartItem[];
   cartOpen: boolean;
   setCartOpen: (open: boolean) => void;
+  reservaOpen: boolean;
+  setReservaOpen: (open: boolean) => void;
   addItem: (item: Omit<CartItem, "id" | "quantity">) => void;
   removeItem: (id: string) => void;
   updateQty: (id: string, qty: number) => void;
@@ -30,6 +32,7 @@ const parseCLP = (str: string) => parseInt(str.replace(/\$|\./g, ""), 10);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [reservaOpen, setReservaOpen] = useState(false);
 
   const addItem = useCallback((newItem: Omit<CartItem, "id" | "quantity">) => {
     const id = `${newItem.name}__${newItem.variant}`;
@@ -60,6 +63,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   return (
     <CartContext.Provider value={{
       items, cartOpen, setCartOpen,
+      reservaOpen, setReservaOpen,
       addItem, removeItem, updateQty, clearCart,
       totalItems, totalPrice,
     }}>

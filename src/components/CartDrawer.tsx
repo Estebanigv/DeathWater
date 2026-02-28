@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, Trash2, Plus, Minus, X } from "lucide-react";
+import { ClipboardList, Plus, Minus, X } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useCart } from "@/context/CartContext";
 
@@ -7,7 +7,7 @@ const formatCLP = (n: number) =>
   "$" + n.toLocaleString("es-CL");
 
 const CartDrawer = () => {
-  const { items, cartOpen, setCartOpen, removeItem, updateQty, clearCart, totalItems, totalPrice } = useCart();
+  const { items, cartOpen, setCartOpen, removeItem, updateQty, clearCart, totalItems, totalPrice, setReservaOpen } = useCart();
 
   return (
     <Sheet open={cartOpen} onOpenChange={setCartOpen}>
@@ -19,9 +19,9 @@ const CartDrawer = () => {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-border shrink-0">
           <div className="flex items-center gap-3">
-            <ShoppingCart className="h-5 w-5 text-primary" aria-hidden="true" />
+            <ClipboardList className="h-5 w-5 text-primary" aria-hidden="true" />
             <h2 className="font-heading text-base font-bold uppercase tracking-[0.2em] text-foreground">
-              Carrito
+              Mi Reserva
             </h2>
             {totalItems > 0 && (
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
@@ -34,7 +34,7 @@ const CartDrawer = () => {
               onClick={clearCart}
               className="font-body text-sm text-muted-foreground hover:text-primary transition-colors"
             >
-              Vaciar carrito
+              Vaciar
             </button>
           )}
         </div>
@@ -49,9 +49,9 @@ const CartDrawer = () => {
                 animate={{ opacity: 1 }}
                 className="flex flex-col items-center justify-center h-full gap-4 py-24 px-6 text-center"
               >
-                <ShoppingCart className="h-12 w-12 text-muted-foreground/20" aria-hidden="true" />
+                <ClipboardList className="h-12 w-12 text-muted-foreground/20" aria-hidden="true" />
                 <p className="font-heading text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                  Tu carrito está vacío
+                  Tu reserva está vacía
                 </p>
                 <button
                   onClick={() => setCartOpen(false)}
@@ -143,16 +143,19 @@ const CartDrawer = () => {
               </span>
             </div>
             <p className="font-body text-xs text-muted-foreground/60">
-              Envío gratis sobre $50.000 · Calculado al finalizar
+              Sin pago online · Te contactamos para coordinar
             </p>
-            <button className="btn-primary w-full !py-4 !text-sm">
-              Ir al Pago
+            <button
+              onClick={() => { setCartOpen(false); setReservaOpen(true); }}
+              className="btn-primary w-full !py-4 !text-sm"
+            >
+              Confirmar Reserva
             </button>
             <button
               onClick={() => setCartOpen(false)}
               className="font-heading text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors text-center py-1"
             >
-              Seguir Comprando
+              Seguir Viendo
             </button>
           </div>
         )}

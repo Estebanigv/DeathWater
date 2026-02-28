@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, Menu, X, User } from "lucide-react";
+import { ClipboardList, Menu, X, User } from "lucide-react";
 import logoHorizontal from "@/assets/logo-horizontal.png";
 import { useCart } from "@/context/CartContext";
 
@@ -38,8 +38,8 @@ const Navbar = () => {
 
   const links = [
     { label: "Bebidas",  href: "#productos" },
-    { label: "Tienda",   href: "#merch"     },
     { label: "Nosotros", href: "#proposito" },
+    { label: "Tienda",   href: "#merch"     },
     { label: "Club",     href: "#comunidad" },
   ];
 
@@ -107,11 +107,11 @@ const Navbar = () => {
           </button>
 
           <button
-            aria-label={`Carrito de compras, ${totalItems} artículos`}
+            aria-label={`Reserva, ${totalItems} artículos`}
             onClick={() => setCartOpen(true)}
             className="relative touch-target text-white hover:text-primary transition-colors duration-200 drop-shadow-md"
           >
-            <ShoppingCart className="h-5 w-5" aria-hidden="true" />
+            <ClipboardList className="h-5 w-5" aria-hidden="true" />
             <AnimatePresence>
               {totalItems > 0 && (
                 <motion.span

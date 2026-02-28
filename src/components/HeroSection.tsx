@@ -84,7 +84,7 @@ const HeroSection = () => (
             href="#productos"
             className="btn-primary w-full xs:w-auto justify-center"
           >
-            Comprar Ahora
+            Reservar Ahora
           </a>
           <a
             href="#proposito"
