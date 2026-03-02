@@ -162,7 +162,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile menu — pantalla completa */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -170,27 +170,41 @@ const Navbar = () => {
             role="menu"
             aria-label="Menú móvil"
             key="mobile-menu"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="md:hidden overflow-hidden border-t border-border bg-background/98 backdrop-blur-md"
+            className="md:hidden fixed inset-0 z-40 bg-background flex flex-col"
           >
-            <div className="px-4 pb-5 pt-1">
+            {/* Links centrados verticalmente */}
+            <div className="flex-1 flex flex-col items-center justify-center gap-2 px-8">
               {links.map((l, i) => (
                 <motion.a
                   key={l.label}
                   role="menuitem"
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
-                  className="flex items-center min-h-[52px] py-3 font-heading text-base uppercase tracking-[0.15em] text-foreground hover:text-primary transition-colors border-b border-border/60 last:border-b-0 cursor-pointer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 + i * 0.07 }}
+                  className="w-full text-center py-4 font-display font-bold uppercase text-foreground hover:text-primary transition-colors duration-200 border-b border-border/40 last:border-b-0 cursor-pointer"
+                  style={{ fontSize: "clamp(1.5rem, 7vw, 2.5rem)" }}
                   onClick={() => handleMobileNav(l.href)}
                 >
                   {l.label}
                 </motion.a>
               ))}
             </div>
+
+            {/* Footer del menú */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              className="px-8 pb-10 text-center"
+            >
+              <p className="font-body text-xs text-muted-foreground tracking-widest uppercase">
+                @deathwatercl
+              </p>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

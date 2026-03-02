@@ -117,6 +117,9 @@
 }
 
 @layer utilities {
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
   .font-display {
     font-family: 'Cinzel Decorative', cursive;
   }

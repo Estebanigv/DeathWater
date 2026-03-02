@@ -31,14 +31,13 @@ const HeroSection = () => (
     <div className="absolute inset-y-0 left-0 w-[50%] xs:w-[40%] bg-gradient-to-r from-black/25 to-transparent z-[3]" />
 
     {/* Content — pb must clear the scroll indicator; pt is handled by absolute positioning at bottom */}
-    <div className="relative z-10 w-full mx-auto max-w-7xl px-4 xs:px-5 md:px-12 pb-20 md:pb-28">
-      {/*
-        Layout: on mobile everything stacks vertically.
-        On sm+ the headline sits left and CTAs sit right on the same baseline row.
-      */}
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 sm:gap-8">
+    <div
+      className="relative z-10 w-full mx-auto max-w-7xl px-4 xs:px-5 md:px-12"
+      style={{ paddingBottom: "max(6rem, calc(4.5rem + env(safe-area-inset-bottom)))" }}
+    >
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 sm:gap-8">
 
-        {/* Left — headline */}
+        {/* Headline */}
         <div className="max-w-xs xs:max-w-sm">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -71,23 +70,17 @@ const HeroSection = () => (
           </motion.p>
         </div>
 
-        {/* CTAs — full-width stacked on mobile, inline on sm+ */}
+        {/* CTAs — izquierda en mobile (w-auto), fila en sm+ */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.45 }}
-          className="flex flex-col xs:flex-row sm:flex-col gap-3 shrink-0 w-full xs:w-auto sm:w-auto"
+          className="flex flex-row sm:flex-col gap-3 shrink-0"
         >
-          <a
-            href="#productos"
-            className="btn-primary w-full xs:w-auto justify-center"
-          >
+          <a href="#productos" className="btn-primary">
             Reservar Ahora
           </a>
-          <a
-            href="#proposito"
-            className="btn-secondary w-full xs:w-auto justify-center"
-          >
+          <a href="#proposito" className="btn-secondary">
             Nuestra Misión
           </a>
         </motion.div>

@@ -23,7 +23,8 @@ const FloatingButtons = () => {
       any centred content and stays comfortably in the safe-area corner.
     */
     <div
-      className="fixed bottom-6 right-4 xs:right-5 z-50 flex flex-col items-center gap-3"
+      className="fixed right-4 xs:right-5 z-50 flex flex-col items-center gap-3"
+      style={{ bottom: "max(1.5rem, calc(1rem + env(safe-area-inset-bottom)))" }}
       aria-label="Acciones flotantes"
     >
 

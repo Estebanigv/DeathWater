@@ -51,7 +51,6 @@ const AnimatedStat = ({ stat, delay }: { stat: Stat; delay: number }) => {
 
     const step = (now: number) => {
       const elapsed = Math.min((now - startTime) / duration, 1);
-      // ease-out cubic
       const eased = 1 - Math.pow(1 - elapsed, 3);
       setCount(Math.round(from + (to - from) * eased));
       if (elapsed < 1) requestAnimationFrame(step);
@@ -61,9 +60,7 @@ const AnimatedStat = ({ stat, delay }: { stat: Stat; delay: number }) => {
   }, [inView, stat.target]);
 
   const displayed =
-    stat.target === null
-      ? stat.display
-      : `${count}${stat.suffix}`;
+    stat.target === null ? stat.display : `${count}${stat.suffix}`;
 
   return (
     <motion.div
@@ -72,22 +69,26 @@ const AnimatedStat = ({ stat, delay }: { stat: Stat; delay: number }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay }}
-      className="group border border-border bg-card p-6 xs:p-8 md:p-10 hover:border-primary hover:glow-gold-sm transition-all duration-300 text-center"
+      className="group flex items-start gap-4 border-b border-border pb-5 last:border-0 last:pb-0"
     >
-      <stat.icon
-        className="h-7 w-7 xs:h-8 xs:w-8 text-primary mx-auto mb-4 xs:mb-5 transition-transform duration-300 group-hover:scale-110"
-        aria-hidden="true"
-      />
-      <p
-        className="font-display font-bold text-gold-gradient mb-2 xs:mb-3 tabular-nums"
-        style={{ fontSize: "clamp(2.5rem, 8vw, 3.75rem)" }}
-        aria-label={stat.display}
-      >
-        {displayed}
-      </p>
-      <p className="font-body text-sm text-muted-foreground leading-relaxed">
-        {stat.label}
-      </p>
+      <div className="shrink-0 mt-1 p-2 border border-border group-hover:border-primary transition-colors duration-300">
+        <stat.icon
+          className="h-5 w-5 text-primary transition-transform duration-300 group-hover:scale-110"
+          aria-hidden="true"
+        />
+      </div>
+      <div>
+        <p
+          className="font-display font-bold text-gold-gradient tabular-nums leading-none mb-1"
+          style={{ fontSize: "clamp(1.75rem, 5vw, 2.5rem)" }}
+          aria-label={stat.display}
+        >
+          {displayed}
+        </p>
+        <p className="font-body text-sm text-muted-foreground leading-relaxed">
+          {stat.label}
+        </p>
+      </div>
     </motion.div>
   );
 };
@@ -96,67 +97,101 @@ const EcoSection = () => (
   <section
     id="proposito"
     aria-label="Nuestro propósito ecológico"
-    className="section-divider py-16 xs:py-20 md:py-24 bg-secondary relative overflow-hidden"
+    className="section-divider bg-secondary relative"
   >
     {/* Radial glow */}
     <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(ellipse_at_center,hsl(43_72%_50%)_0%,transparent_65%)]" />
+      <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(ellipse_at_left,hsl(43_72%_50%)_0%,transparent_60%)]" />
     </div>
 
-    <div className="relative z-10 mx-auto max-w-5xl px-4 md:px-6 text-center">
+    <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center max-w-[1400px] mx-auto">
 
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="font-display font-bold mb-3 xs:mb-4 leading-tight"
-        style={{ fontSize: "clamp(2rem, 8vw, 4.5rem)" }}
-      >
-        <span className="text-gold-gradient">MUERTE AL PLÁSTICO</span>
-      </motion.h2>
+      {/* Columna contenido */}
+      <div className="flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-16 xs:py-20 md:py-24 order-2 lg:order-1">
 
-      <motion.h3
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.1 }}
-        className="font-display font-bold mb-5 xs:mb-6 leading-tight"
-        style={{ fontSize: "clamp(1.2rem, 4vw, 2.25rem)" }}
-      >
-        <span className="text-foreground">El reciclaje de plástico</span>
-        {" "}
-        <span className="text-muted-foreground">es un mito</span>
-      </motion.h3>
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="font-body text-xs tracking-[0.25em] uppercase text-primary mb-4"
+        >
+          Nuestro propósito
+        </motion.p>
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-        className="font-body text-sm xs:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-10 xs:mb-14 md:mb-16 leading-relaxed"
-      >
-        En Chile generamos más de 990 mil toneladas de plástico al año. La
-        mayoría termina en vertederos o en el océano. Nosotros elegimos el
-        aluminio porque se recicla de verdad, infinitas veces, sin perder
-        calidad.
-      </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.05 }}
+          className="font-display font-bold leading-tight mb-3"
+          style={{ fontSize: "clamp(2rem, 5vw, 3.75rem)" }}
+        >
+          <span className="text-gold-gradient">MUERTE AL</span>
+          <br />
+          <span className="text-gold-gradient">PLÁSTICO</span>
+        </motion.h2>
 
-      {/* Stat cards con contador animado */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-14">
-        {stats.map((s, i) => (
-          <AnimatedStat key={s.label} stat={s} delay={i * 0.15} />
-        ))}
+        <motion.h3
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.12 }}
+          className="font-display font-bold mb-5 leading-tight"
+          style={{ fontSize: "clamp(1rem, 2.5vw, 1.4rem)" }}
+        >
+          <span className="text-foreground">El reciclaje de plástico</span>{" "}
+          <span className="text-muted-foreground">es un mito</span>
+        </motion.h3>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.18 }}
+          className="font-body text-sm xs:text-base text-muted-foreground mb-10 leading-relaxed max-w-sm"
+        >
+          En Chile generamos más de 990 mil toneladas de plástico al año. La
+          mayoría termina en vertederos o en el océano. Nosotros elegimos el
+          aluminio porque se recicla de verdad, infinitas veces, sin perder
+          calidad.
+        </motion.p>
+
+        {/* Stats en lista vertical */}
+        <div className="flex flex-col gap-5 mb-10">
+          {stats.map((s, i) => (
+            <AnimatedStat key={s.label} stat={s} delay={0.2 + i * 0.12} />
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.55 }}
+        >
+          <a href="/conoce-mas" className="btn-secondary self-start">
+            Conoce Más
+          </a>
+        </motion.div>
       </div>
 
+      {/* Columna imagen — sin recorte, altura natural */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, x: 30 }}
+        whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.4 }}
+        transition={{ duration: 0.7 }}
+        className="relative order-1 lg:order-2 self-stretch flex items-end"
       >
-        <a href="/conoce-mas" className="btn-secondary">
-          Conoce Más
-        </a>
+        <img
+          src="/Image/Muerta al plastico/Muertealplastico.webp"
+          alt="La lata Death Water combatiendo el plástico"
+          className="w-full h-auto block object-contain"
+        />
+        {/* Fusión izquierda con el contenido en desktop */}
+        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-secondary to-transparent hidden lg:block pointer-events-none" />
+        {/* Fusión inferior en mobile */}
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-secondary to-transparent lg:hidden pointer-events-none" />
       </motion.div>
     </div>
   </section>
