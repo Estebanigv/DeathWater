@@ -22,7 +22,7 @@ type MerchItem = {
 const merch: MerchItem[] = [
   {
     name: "Polera Mata Tu Sed",
-    price: "$19.990",
+    price: "$00000",
     type: "Polera",
     img: "/Image/Tienda/Polera Mata Tu Sed.webp",
     description:
@@ -37,7 +37,7 @@ const merch: MerchItem[] = [
   },
   {
     name: "Cooler Calavera 2-Pack",
-    price: "$9.990",
+    price: "$00000",
     type: "Accesorio",
     img: "/Image/Tienda/Cooler Calavera 2-Pack.webp",
     description:
@@ -55,7 +55,7 @@ const merch: MerchItem[] = [
   },
   {
     name: "Gorro Death Water",
-    price: "$12.990",
+    price: "$00000",
     type: "Gorro",
     img: "/Image/Tienda/Gorro Death Water.webp",
     description:
@@ -70,7 +70,7 @@ const merch: MerchItem[] = [
   },
   {
     name: "Vaso Térmico Andino",
-    price: "$14.990",
+    price: "$00000",
     type: "Drinkware",
     img: "/Image/Tienda/Vaso Térmico Andino.webp",
     description:
@@ -85,7 +85,7 @@ const merch: MerchItem[] = [
   },
   {
     name: "Hoodie Avalancha",
-    price: "$29.990",
+    price: "$00000",
     type: "Hoodie",
     img: "/Image/Tienda/Hoodie Avalancha.webp",
     description:
@@ -100,7 +100,7 @@ const merch: MerchItem[] = [
   },
   {
     name: "Stickers Pack",
-    price: "$3.990",
+    price: "$00000",
     type: "Stickers",
     img: "/Image/Tienda/Stickers Pack.webp",
     description:
@@ -118,7 +118,7 @@ const merch: MerchItem[] = [
   },
   {
     name: "Tote Bag Muerte al Plástico",
-    price: "$7.990",
+    price: "$00000",
     type: "Bolso",
     img: "/Image/Tienda/Tote Bag Muerte al Plástico.webp",
     description:
@@ -133,7 +133,7 @@ const merch: MerchItem[] = [
   },
   {
     name: "Llavero Calavera",
-    price: "$4.990",
+    price: "$00000",
     type: "Accesorio",
     img: "/Image/Tienda/Llavero Calavera.webp",
     description:

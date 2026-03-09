@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Droplets, Zap, Leaf, Award } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
@@ -13,6 +13,8 @@ type Product = {
   description: string;
   img: string;
   pos: string;
+  hoverVideo?: string;
+  hoverVideoReverse?: string;
   longDescription: string;
   details: string[];
   facts: { icon: React.ReactNode; label: string; value: string }[];
@@ -25,10 +27,12 @@ const products: Product[] = [
     category: "Sin Gas",
     label: "Agua Purificada",
     cal: "0 Cal · 500 ml",
-    price: "$990",
+    price: "$00000",
     description: "Pura de los Andes. Sin burbujas, sin drama, sin plástico.",
     img: "/Image/Productos/DHsgs.webp",
     pos: "object-[center_30%]",
+    hoverVideo: "/Image/tsunami-hover.mp4",
+    hoverVideoReverse: "/Image/tsunami-hover-reverse.mp4",
     longDescription:
       "Captada en las alturas de la cordillera andina y purificada por procesos naturales de filtración glaciar. Sin gas, sin aditivos, sin plástico. Solo agua en su estado más puro.",
     details: [
@@ -50,7 +54,7 @@ const products: Product[] = [
     category: "Con Gas",
     label: "Agua Con Gas",
     cal: "0 Cal · 500 ml",
-    price: "$990",
+    price: "$00000",
     description: "La misma pureza andina, pero con la fuerza de un aluvión en cada sorbo.",
     img: "/Image/Productos/DHcgs.webp",
     pos: "object-[center_30%]",
@@ -75,6 +79,157 @@ const products: Product[] = [
 const getMultiplier = (qty: string) => {
   const match = qty.match(/^(\d+)/);
   return match ? parseInt(match[1], 10) : 1;
+};
+
+const FADE_MS = 600;
+
+const ProductCard = ({ p, i, onOpen, onAddToCart }: { p: Product; i: number; onOpen: (p: Product) => void; onAddToCart: (p: Product, qty: string) => void }) => {
+  const videoFwdRef = useRef<HTMLVideoElement>(null);
+  const videoRevRef = useRef<HTMLVideoElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  // "leaving" = mouse salió pero esperando que el forward termine
+  const leavingRef = useRef(false);
+
+  const playReverse = () => {
+    const fwd = videoFwdRef.current;
+    const rev = videoRevRef.current;
+    if (fwd) { fwd.pause(); fwd.style.opacity = "0"; }
+    if (!rev) return;
+    rev.currentTime = 0;
+    rev.style.opacity = "1";
+    rev.play().catch(() => {});
+    const onRevEnded = () => {
+      rev.style.opacity = "0";
+      if (imgRef.current) imgRef.current.style.opacity = "1";
+      rev.removeEventListener("ended", onRevEnded);
+    };
+    rev.addEventListener("ended", onRevEnded);
+  };
+
+  const handleMouseEnter = () => {
+    if (!p.hoverVideo) return;
+    leavingRef.current = false;
+
+    // Cancelar reverso si estaba corriendo
+    const rev = videoRevRef.current;
+    if (rev) { rev.pause(); rev.style.opacity = "0"; }
+
+    const fwd = videoFwdRef.current;
+    if (!fwd) return;
+    fwd.currentTime = 0;
+    fwd.style.opacity = "1";
+    if (imgRef.current) imgRef.current.style.opacity = "0";
+    fwd.play().catch(() => {});
+
+    // Si el forward termina y el mouse sigue dentro, no hacer nada (queda en último frame)
+    const onFwdEnded = () => {
+      fwd.removeEventListener("ended", onFwdEnded);
+      if (leavingRef.current) playReverse();
+    };
+    fwd.addEventListener("ended", onFwdEnded);
+  };
+
+  const handleMouseLeave = () => {
+    if (!p.hoverVideoReverse) return;
+    leavingRef.current = true;
+    const fwd = videoFwdRef.current;
+    // Si el forward ya terminó, arrancar reversa de inmediato
+    if (!fwd || fwd.ended || fwd.paused) {
+      playReverse();
+    }
+    // Si aún está corriendo, el listener "onFwdEnded" del mouseEnter disparará playReverse()
+  };
+
+  return (
+    <motion.article
+      key={p.name}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: i * 0.15 }}
+      onClick={() => onOpen(p)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      role="button"
+      tabIndex={0}
+      aria-label={`Ver ${p.name} — ${p.price}`}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(p); } }}
+      className="group bg-card border border-border hover:border-primary hover:glow-gold-sm transition-all duration-300 flex flex-col cursor-pointer"
+    >
+      {/* Image */}
+      <div className="relative aspect-[4/3] xs:aspect-[3/4] overflow-hidden">
+        <img
+          src={p.img}
+          alt={`${p.name} — ${p.label}`}
+          loading="lazy"
+          ref={imgRef}
+          className={`w-full h-full object-cover ${p.pos} ${p.hoverVideo ? "" : "transition-transform duration-500 group-hover:scale-105"}`}
+          style={p.hoverVideo ? { transition: `opacity ${FADE_MS}ms ease` } : undefined}
+        />
+        {p.hoverVideo && (
+          <video
+            ref={videoFwdRef}
+            src={p.hoverVideo}
+            muted
+            playsInline
+            preload="auto"
+            style={{ opacity: 0, transition: `opacity ${FADE_MS}ms ease` }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
+        {p.hoverVideoReverse && (
+          <video
+            ref={videoRevRef}
+            src={p.hoverVideoReverse}
+            muted
+            playsInline
+            preload="auto"
+            style={{ opacity: 0, transition: `opacity ${FADE_MS}ms ease` }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
+        <span className="absolute top-3 left-3 xs:top-4 xs:left-4 font-heading text-[10px] uppercase tracking-[0.3em] bg-primary text-primary-foreground px-2.5 xs:px-3 py-0.5 xs:py-1 z-10">
+          {p.category}
+        </span>
+      </div>
+
+      {/* Info */}
+      <div className="p-4 xs:p-5 md:p-6 flex flex-col gap-3 flex-1">
+        <div>
+          <p className="font-heading text-[10px] uppercase tracking-[0.4em] text-primary mb-1.5">
+            {p.label}
+          </p>
+          <h3 className="font-display text-lg xs:text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-200">
+            {p.name}
+          </h3>
+        </div>
+
+        <p className="font-body text-sm text-muted-foreground leading-relaxed flex-1">
+          {p.description}
+        </p>
+
+        {/* Price row */}
+        <div className="flex items-center justify-between pt-3 xs:pt-4 border-t border-border gap-2">
+          <div className="flex items-baseline gap-2 min-w-0">
+            <span className="font-heading text-xl xs:text-2xl font-bold text-foreground">
+              {p.price}
+            </span>
+            <span className="font-body text-xs text-muted-foreground hidden xs:inline">
+              {p.cal}
+            </span>
+          </div>
+          <button
+            aria-label={`Añadir ${p.name} al carrito`}
+            onClick={(e) => { e.stopPropagation(); onAddToCart(p, "1 lata"); }}
+            className="btn-primary !py-2.5 !px-4 xs:!px-5 !text-[10px] shrink-0"
+          >
+            <ShoppingCart className="h-3.5 w-3.5" aria-hidden="true" />
+            Añadir
+          </button>
+        </div>
+      </div>
+    </motion.article>
+  );
 };
 
 const ProductsSection = () => {
@@ -138,68 +293,7 @@ const ProductsSection = () => {
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
           {products.map((p, i) => (
-            <motion.article
-              key={p.name}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
-              onClick={() => handleOpen(p)}
-              role="button"
-              tabIndex={0}
-              aria-label={`Ver ${p.name} — ${p.price}`}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleOpen(p); } }}
-              className="group bg-card border border-border hover:border-primary hover:glow-gold-sm transition-all duration-300 flex flex-col cursor-pointer"
-            >
-              {/* Image — shorter on mobile to fit without scrolling */}
-              <div className="relative aspect-[4/3] xs:aspect-[3/4] overflow-hidden">
-                <img
-                  src={p.img}
-                  alt={`${p.name} — ${p.label}`}
-                  loading="lazy"
-                  className={`w-full h-full object-cover ${p.pos} transition-transform duration-500 group-hover:scale-105`}
-                />
-                <span className="absolute top-3 left-3 xs:top-4 xs:left-4 font-heading text-[10px] uppercase tracking-[0.3em] bg-primary text-primary-foreground px-2.5 xs:px-3 py-0.5 xs:py-1">
-                  {p.category}
-                </span>
-              </div>
-
-              {/* Info */}
-              <div className="p-4 xs:p-5 md:p-6 flex flex-col gap-3 flex-1">
-                <div>
-                  <p className="font-heading text-[10px] uppercase tracking-[0.4em] text-primary mb-1.5">
-                    {p.label}
-                  </p>
-                  <h3 className="font-display text-lg xs:text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-200">
-                    {p.name}
-                  </h3>
-                </div>
-
-                <p className="font-body text-sm text-muted-foreground leading-relaxed flex-1">
-                  {p.description}
-                </p>
-
-                {/* Price row */}
-                <div className="flex items-center justify-between pt-3 xs:pt-4 border-t border-border gap-2">
-                  <div className="flex items-baseline gap-2 min-w-0">
-                    <span className="font-heading text-xl xs:text-2xl font-bold text-foreground">
-                      {p.price}
-                    </span>
-                    <span className="font-body text-xs text-muted-foreground hidden xs:inline">
-                      {p.cal}
-                    </span>
-                  </div>
-                  <button
-                    aria-label={`Añadir ${p.name} al carrito`}
-                    onClick={(e) => { e.stopPropagation(); handleAddToCart(p, "1 lata"); }}
-                    className="btn-primary !py-2.5 !px-4 xs:!px-5 !text-[10px] shrink-0"
-                  >
-                    <ShoppingCart className="h-3.5 w-3.5" aria-hidden="true" />
-                    Añadir
-                  </button>
-                </div>
-              </div>
-            </motion.article>
+            <ProductCard key={p.name} p={p} i={i} onOpen={handleOpen} onAddToCart={handleAddToCart} />
           ))}
         </div>
       </div>
@@ -251,7 +345,7 @@ const ProductsSection = () => {
                     </div>
                     <div className="text-right shrink-0">
                       <span className="font-heading text-xl xs:text-2xl font-bold text-foreground">
-                        {formatCLP(computedPrice)}
+                        {selected.price}
                       </span>
                       <p className="font-body text-[10px] text-muted-foreground">{selected.cal}</p>
                     </div>
@@ -319,7 +413,7 @@ const ProductsSection = () => {
                       className="btn-primary w-full !py-4 !text-sm"
                     >
                       <ShoppingCart className="h-4 w-4" aria-hidden="true" />
-                      Añadir — {formatCLP(computedPrice)}
+                      Añadir — {selected.price}
                     </button>
                   </div>
                 </div>

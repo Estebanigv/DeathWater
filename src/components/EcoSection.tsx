@@ -104,10 +104,10 @@ const EcoSection = () => (
       <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(ellipse_at_left,hsl(43_72%_50%)_0%,transparent_60%)]" />
     </div>
 
-    <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center max-w-[1400px] mx-auto">
+    <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center">
 
       {/* Columna contenido */}
-      <div className="flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-16 xs:py-20 md:py-24 order-2 lg:order-1">
+      <div className="flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:pl-20 lg:pr-10 xl:pl-28 xl:pr-12 py-16 xs:py-20 md:py-24 order-2 lg:order-1">
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
@@ -115,7 +115,7 @@ const EcoSection = () => (
           viewport={{ once: true }}
           className="font-body text-xs tracking-[0.25em] uppercase text-primary mb-4"
         >
-          Nuestro propósito
+          El Manifiesto
         </motion.p>
 
         <motion.h2
@@ -123,25 +123,13 @@ const EcoSection = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.05 }}
-          className="font-display font-bold leading-tight mb-3"
+          className="font-display font-bold leading-tight mb-6"
           style={{ fontSize: "clamp(2rem, 5vw, 3.75rem)" }}
         >
-          <span className="text-gold-gradient">MUERTE AL</span>
+          <span className="text-gold-gradient">¿Por qué</span>
           <br />
-          <span className="text-gold-gradient">PLÁSTICO</span>
+          <span className="text-gold-gradient">esta lata?</span>
         </motion.h2>
-
-        <motion.h3
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.12 }}
-          className="font-display font-bold mb-5 leading-tight"
-          style={{ fontSize: "clamp(1rem, 2.5vw, 1.4rem)" }}
-        >
-          <span className="text-foreground">El reciclaje de plástico</span>{" "}
-          <span className="text-muted-foreground">es un mito</span>
-        </motion.h3>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -150,10 +138,10 @@ const EcoSection = () => (
           transition={{ delay: 0.18 }}
           className="font-body text-sm xs:text-base text-muted-foreground mb-10 leading-relaxed max-w-sm"
         >
-          En Chile generamos más de 990 mil toneladas de plástico al año. La
-          mayoría termina en vertederos o en el océano. Nosotros elegimos el
-          aluminio porque se recicla de verdad, infinitas veces, sin perder
-          calidad.
+          Estamos cansados de las botellas de plástico que matan el planeta.
+          Nuestra agua viene en aluminio, porque el aluminio es infinito. El
+          plástico es para siempre, y nosotros no. No buscamos convencerte.
+          Buscamos a los que ya entienden el problema.
         </motion.p>
 
         {/* Stats en lista vertical */}
@@ -170,28 +158,28 @@ const EcoSection = () => (
           transition={{ delay: 0.55 }}
         >
           <a href="/conoce-mas" className="btn-secondary self-start">
-            Conoce Más
+            Leer más
           </a>
         </motion.div>
       </div>
 
-      {/* Columna imagen — sin recorte, altura natural */}
+      {/* Columna imagen — sin recorte */}
       <motion.div
         initial={{ opacity: 0, x: 30 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="relative order-1 lg:order-2 self-stretch flex items-end"
+        className="relative order-1 lg:order-2"
       >
         <img
           src="/Image/Muerta al plastico/Muertealplastico.webp"
           alt="La lata Death Water combatiendo el plástico"
-          className="w-full h-auto block object-contain"
+          className="w-full h-auto block"
         />
-        {/* Fusión izquierda con el contenido en desktop */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-secondary to-transparent hidden lg:block pointer-events-none" />
-        {/* Fusión inferior en mobile */}
-        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-secondary to-transparent lg:hidden pointer-events-none" />
+        {/* Fusión izquierda — desktop */}
+        <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-secondary to-transparent hidden lg:block pointer-events-none" />
+        {/* Fusión inferior — mobile */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-secondary to-transparent lg:hidden pointer-events-none" />
       </motion.div>
     </div>
   </section>

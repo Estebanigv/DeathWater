@@ -63,28 +63,19 @@ const AgeGate = () => {
                   transition={{ delay: 0.35, duration: 0.5 }}
                   className="flex flex-col items-center gap-6"
                 >
-                  {/* Eyebrow */}
-                  <p className="font-heading text-[10px] uppercase tracking-[0.5em] text-primary">
-                    Antes de entrar
-                  </p>
-
                   {/* Headline */}
                   <h1
                     className="font-display font-bold leading-tight"
-                    style={{ fontSize: "clamp(2rem, 10vw, 3.5rem)" }}
+                    style={{ fontSize: "clamp(1.6rem, 8vw, 3rem)" }}
                   >
-                    <span className="text-gold-gradient">¿ERES</span>
+                    <span className="text-white">¿Eres mayor de edad</span>
                     <br />
-                    <span className="text-white">MAYOR DE</span>
-                    <br />
-                    <span className="text-gold-gradient">EDAD?</span>
+                    <span className="text-gold-gradient">o solo tienes buen gusto?</span>
                   </h1>
 
                   {/* Copia */}
-                  <p className="font-body text-base xs:text-lg text-white/90 leading-relaxed max-w-[28ch] font-medium">
-                    No es alcohol. Es agua andina en lata.
-                    <br />
-                    <span className="text-primary">Pero nos gusta el drama.</span>
+                  <p className="font-body text-sm xs:text-base text-white/80 leading-relaxed max-w-[30ch]">
+                    No vendemos alcohol. Vendemos agua de los Andes en una lata que te hará ver más rudo que el resto. ¿Estás listo para el drama?
                   </p>
 
                   {/* Botones */}
@@ -93,7 +84,7 @@ const AgeGate = () => {
                       onClick={allow}
                       className="btn-primary flex-1 !py-4 !text-sm"
                     >
-                      Sí, tengo +18
+                      Soy mayor, dame la lata.
                     </button>
                     <button
                       onClick={deny}
@@ -119,14 +110,12 @@ const AgeGate = () => {
                     className="font-display font-bold text-white leading-tight"
                     style={{ fontSize: "clamp(1.5rem, 7vw, 2.5rem)" }}
                   >
-                    Vuelve en
+                    Vuelve cuando tengas
                     <br />
-                    <span className="text-gold-gradient">unos años.</span>
+                    <span className="text-gold-gradient">más criterio.</span>
                   </h2>
-                  <p className="font-body text-sm text-white/55 leading-relaxed max-w-[28ch]">
-                    El agua seguirá aquí esperándote.
-                    <br />
-                    La Cordillera también.
+                  <p className="font-body text-sm text-white/55 leading-relaxed max-w-[30ch]">
+                    La Cordillera y nosotros seguiremos aquí.
                   </p>
                   <button
                     onClick={() => setDenied(false)}

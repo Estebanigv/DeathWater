@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight, Users } from "lucide-react";
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState("");
@@ -32,17 +32,26 @@ const NewsletterSection = () => {
             <Mail className="h-5 w-5 xs:h-6 xs:w-6 text-primary" />
           </div>
 
+          <p className="font-heading text-[10px] uppercase tracking-[0.4em] text-primary mb-3">
+            Sé parte de la resistencia.
+          </p>
+
           <h2
             className="font-display font-bold text-gold-gradient mb-4"
             style={{ fontSize: "clamp(1.5rem, 7vw, 2.25rem)" }}
           >
-            No Te Pierdas Nada
+            La Lista de Iniciados
           </h2>
 
-          <p className="font-body text-sm xs:text-base text-muted-foreground mb-8 xs:mb-10 max-w-[38ch] leading-relaxed">
-            Suscríbete y recibe noticias, lanzamientos y ofertas que te van a
-            dejar helado.
+          <p className="font-body text-sm xs:text-base text-muted-foreground mb-6 xs:mb-8 max-w-[38ch] leading-relaxed">
+            No hacemos spam. Solo te avisaremos cuando estemos listos para invadir el mercado y repartir latas. No te quedes fuera.
           </p>
+
+          {/* Contador fijo */}
+          <div className="flex items-center gap-2 mb-6 text-muted-foreground/70">
+            <Users className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            <span className="font-body text-xs">247 personas ya están en la lista</span>
+          </div>
 
           {submitted ? (
             <motion.div
@@ -51,10 +60,10 @@ const NewsletterSection = () => {
               className="flex flex-col items-center gap-3 py-6"
             >
               <p className="font-heading text-sm uppercase tracking-[0.2em] text-primary">
-                Suscrito con exito
+                Bienvenido al Culto.
               </p>
-              <p className="font-body text-sm text-muted-foreground">
-                Pronto tendrás novedades en tu correo.
+              <p className="font-body text-sm text-muted-foreground max-w-[36ch] leading-relaxed">
+                No nos agradezcas todavía, ni siquiera has probado el agua.
               </p>
             </motion.div>
           ) : (
@@ -80,9 +89,9 @@ const NewsletterSection = () => {
               <button
                 type="submit"
                 className="btn-primary gap-1.5 whitespace-nowrap w-full xs:w-auto"
-                aria-label="Suscribirse al newsletter"
+                aria-label="Unirse al culto"
               >
-                Suscribirme
+                Unirme al culto
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
             </form>
